@@ -305,4 +305,19 @@ void subsets(vector<int>nums)
 
   }
 
+// Subet Generator using recursion
+vector<vector<int>>subsets;
+void generatesubsets(vector<int>&subset,int i,vector<int>&nums){
+  
+  if(i==nums.size()){
+   subsets.push_back(subset);
+    return ;
+  }
+  
+  generatesubsets(subset,i+1,nums);
+
+  subset.push_back(nums[i]);
+  generatesubsets(subset,i+1,nums);
+  subset.pop_back();
+}
 
