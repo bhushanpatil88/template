@@ -1,0 +1,349 @@
+
+using namespace std;
+//==============================================DEFINES=============================================
+#define ll long long int
+#define M 1000000007 //1e9+7
+#define pi 3.1415926535897932384626
+#define ff first
+#define ss second
+#define vl vector<ll>
+#define endl "\n"
+#define fo(i,a,n)  for(ll i=a;i<=n;i++)
+#define fastio  cin.tie(0), cout.tie(0),ios_base::sync_with_stdio(false);
+
+//===============================================Functions=============================================
+
+//Log to the base 2 of a number
+
+int log2(int x)
+{
+    int res = 0;
+    while (x >>= 1)
+        res++;
+    return res;
+}
+
+
+//Linked list creation
+//class Node
+//{
+//  public:
+//  int data;
+// Node* next;
+//};
+
+
+//Take space string input
+//char str[100];
+//scanf(" %[^\n]%*c",str);
+
+//Dynamic array
+// int *arr = (int*)malloc(n * sizeof(int))
+
+
+//Recursive Factorial
+ll factorial(ll n)
+{
+  if(n==0 || n==1) return 1;
+  else  return n*factorial(n-1); 
+}
+
+//fibonacci in log(N)
+ll fib(int n) {
+  double phi = (1 + sqrt(5)) / 2;
+  return round(pow(phi, n) / sqrt(5));
+}
+
+
+//Modular addition
+ll modadd(ll a,ll b,ll c)
+   { return ((a % c) + (b%c))%c;}
+
+//Modular subtraction
+ll modsub(ll a,ll b,ll c)
+   { return ((a%c) - (b%c) + c)%c;}
+ 
+ //Modular Multiplication
+  inline modmul(ll a,ll b,ll c)
+   { return ((a%c) * (b%c) )%c;}
+  
+  //Modular Power
+  ll modpow(ll x,ll n,int c)
+  {
+    ll result=1;
+    while(n>0) {if(n & 1) result=(result * x)%c ; x=(x*x) % c ; n>>=1;}
+ 
+    return result;
+  }
+
+
+  //GCD
+  ll gcd(ll A, ll B) {
+    if(A==0) return B;
+    else return gcd(B%A,A);
+  }
+
+  //LCM
+  ll lcm(ll a, ll b)
+  {
+    return (a / gcd(a, b)) * b;
+  }
+
+
+  //Extended gcd
+  ll gcdextended(ll a, ll b, ll *x, ll *y) 
+  { 
+   
+    if (a == 0) 
+    { 
+        *x = 0, *y = 1; 
+        return b; 
+    } 
+  
+    ll x1=1, y1=1;
+  
+    ll gcd = gcdextended(b%a, a, &x1, &y1); 
+  
+    *x = y1 - (b/a) * x1; 
+    *y = x1; 
+  
+    return gcd; 
+  } 
+
+//Modular Inverse (x is  inverse of b under modulo m)
+ll modInverse(ll b, ll m) 
+{ 
+    return modpow(b,m-2,m); //Fermit's little theorem
+} 
+  
+  
+//MOdular Division
+ll modDivide(ll a, ll b, ll m) 
+{ 
+    a = a % m; 
+    ll inv = modInverse(b, m); 
+    if (inv == -1) 
+       return -1; 
+    else
+       return (inv * a) % m; 
+} 
+
+//Priliminary Test O(rootN)
+bool isprime(ll n)
+{
+  if(n==1) return false;
+  for(ll i=2;i*i<=n;i++)
+  if(n%i==0) return false;
+  
+  return true;
+}
+
+//Prime Factorization
+void primefactorisation(ll n)
+{
+  ll res = n;
+  for(ll i=2;i*i<=n;i++)
+  if(n%i==0)
+  {
+    ll ct=0;
+    while(n%i==0)
+    ct++,n/=i;
+
+    cout<<i<<"^"<<ct<<endl;
+
+  }
+  if(n>1) cout<<n<<"^"<<1<<endl;
+} 
+
+//========================Sieve of Eratosthenes=======
+vector<int>highest_prime(1e7+10,0);
+vector<int>lowest_prime(1e7+10,0);
+void sieve(int n)
+{
+  vector<bool>arr(n+1,true);
+  arr[0]=arr[1]=0;
+  for (ll i = 2; i*i <=n; i++)
+    if(arr[i]) 
+      {
+      
+        for (ll j = 2*i; j <=n; j+=i)
+        { arr[j]=false;
+	      highest_prime[j]=i;
+          if(lowest_prime[j]==0) lowest_prime[j]=i;	
+        }
+      }
+  for (ll i = 2; i <n; i++)
+    { //if(arr[i])cout<<i<<" "<<i<<" "<<i<<endl;
+     //else cout<<i<<" "<<lowest_prime[i]<<" "<<highest_prime[i]<<endl;
+  //if(arr[i])cout<<i<<endl;
+   }
+}
+
+//prime factorization (log(N)) using sieve
+void primefactorisation(int n)
+{
+   int prime = lowest_prime[n];
+   while(n%prime==0)
+   {
+	n /= prime;
+        cout<<prime;
+   }
+}
+
+
+
+
+
+// Totient Function
+ll phi(ll n)
+{
+  ll res = n;
+  for(ll i=2;i*i<=n;i++)
+  if(n%i==0)
+  {   
+
+    while(n%i==0)
+    n/=i;
+
+	res -= res/i;
+  }
+  if(n>1) res -= res/n ;
+
+  return res;
+} 
+
+
+//Leap Year
+ll leapyear(ll year)
+{
+   
+   if (year % 400 == 0) return 1;
+   
+   else if (year % 100 == 0) return 0;
+   
+   else if (year % 4 == 0) return 1;
+   
+   else return 0;
+}
+
+
+//Palindrome String
+ll isPalindrome(char str[])
+{
+
+    int l = 0;
+    int h = strlen(str) - 1;
+  
+    while (h > l)
+    {
+        if (str[l++] != str[h--])
+            return 0;
+    }
+    return 1;
+}
+
+//Merge Sort
+void merger(int a[],int l,int r,int mid )
+{
+    int n1 = mid - l +1;
+    int n2 = r - mid;
+    int arr[n1+1],brr[n2+1];
+    for(int i = 0;i<n1;i++)
+      arr[i] = a[l+i];
+    
+    for(int i = 0;i<n2;i++)
+      brr[i] = a[mid+1+i];
+
+    arr[n1] = brr[n2] = INT_MAX;
+
+    int i,j;
+    i=0;
+    j=0;
+   for(int k=l;k<=r;k++)
+   {
+     if(arr[i]<=brr[j]){a[k] = arr[i];i++;}
+     else {a[k] = brr[j];j++;}
+   }
+
+}
+
+void mergersort(int a[],int l,int r)
+{
+  if(l==r)return;
+    int mid = (l+r)/2;
+    mergersort(a,l,mid);
+    mergersort(a,mid+1,r);
+
+    merger(a,l,r,mid);
+}
+
+// Quick Sort
+int partition (int arr[], int l, int r){ 
+    int pivot = arr[r]; 
+    int i = (l - 1); 
+  
+    for (int j = l; j <= r - 1; j++)   { 
+       if (arr[j] < pivot) 
+        {   i++; 
+            swap(arr[i], arr[j]); 
+        } 
+    } 
+    swap(arr[i + 1], arr[r]); 
+    return (i + 1); 
+} 
+  
+
+void quicksort(int arr[],int l,int r){
+  if(l<r)
+  {
+    int pivot = partition(arr,l,r);
+    quicksort(arr,l,pivot-1);
+    quicksort(arr,pivot+1,r); 
+  }
+}
+
+//Subset Generation using bit magic
+
+void subsets(vector<int>nums)
+{
+  int n = nums.size();
+  int subset_ct = (1<<n);
+  vector<vector<int>>ans;
+  for (int mask = 0; mask < subset_ct; mask++)
+  {
+    vector<int>subset;
+    for (int i = 0; i < n; i++)
+      if(mask&(1<<i))
+        subset.push_back(nums[i]);
+
+    ans.push_back(subset);
+    
+  }
+    for(auto c:ans)
+    {
+      for(auto i : c)
+      cout<<i<<" ";
+
+     cout<<endl;
+    }
+
+  }
+
+
+// Subet Generator using recursion
+vector<vector<int>>subsets;
+void generatesubsets(vector<int>&subset,int i,vector<int>&nums){
+  
+  if(i==nums.size()){
+   subsets.push_back(subset);
+    return ;
+  }
+  
+  generatesubsets(subset,i+1,nums);
+
+  subset.push_back(nums[i]);
+  generatesubsets(subset,i+1,nums);
+  subset.pop_back();
+}
+
+
