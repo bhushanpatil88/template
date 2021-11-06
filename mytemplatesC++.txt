@@ -13,24 +13,44 @@ using namespace std;
 
 //===============================================Functions=============================================
 
-//Log to the base 2 of a number
 
-int log2(int x)
-{
-    int res = 0;
-    while (x >>= 1)
-        res++;
-    return res;
-}
+class Node{
+  int data;
+    Node  *next;
+    public:
+    Node (int x)
+    {
+       
+        data = x;
+        next=NULL;
+    }
+};
+
+class stackarr{
+  
+  int *arr;
+  int top;
+  public:
+  stackarr{
+      int top=-1;
+      arr = new int[10];
+  }
+};
+
+class dequearr{
+  int *arr;
+  int front;
+  int back;
+  public:
+  dequearr{
+      int front = -1;
+      int back = -1;
+      arr = new int[10];
+      
+  }
+};
 
 
-//Linked list creation
-//class Node
-//{
-//  public:
-//  int data;
-// Node* next;
-//};
 
 
 //Take space string input
