@@ -21,8 +21,8 @@ public:
 	}
 
     void Union(int u, int v) {
-        int u = findPar(u);
-        int v = findPar(v);
+        u = findPar(u);
+        v = findPar(v);
         if (u == v) return;
         if (rank[u] < rank[v]) {
             parent[u] = v;
