@@ -59,7 +59,19 @@ int lcm(int a, int b){return (a / __gcd(a, b)) * b;}
 //Modular Inverse (x is  inverse of b under modulo m)
 int modInverse(int b, int m) {return modpow(b,m-2,m);} //Fermat's little theorem if(M = prime) else extended_gcd 
 //MOdular Division
- int modDivide(int a, int b, int m){a = a % m;int inv = modInverse(b, m);if (inv == -1)return -1;else return (inv * a) % m;} 
+int modDivide(int a, int b, int m){a = a % m;int inv = modInverse(b, m);if (inv == -1)return -1;else return (inv * a) % m;} 
+
+vector<int>fact(N, 1), inv(N,1);
+void factorize(){
+    
+    for(int i = 1;i<N;i++){
+        fact[i] = (fact[i-1]*i)%M;
+    }
+    inv[N-1] = modInverse(fact[N-1], M);
+    for(int i = N-2;i>=1;i--){
+        inv[i] = (inv[i+1]* (i+1) )%M;
+    }
+}
 
 const int N = 1e5+10;
 const int INF=1e9+10;
@@ -68,10 +80,10 @@ const int INF=1e9+10;
 //===================================================Code Here=========================================
 
 
+void sol(){   
 
-void sol(){
 
-
+    
 }
 
  
@@ -87,5 +99,3 @@ signed main() {
      sol();
 
 }
-
-
