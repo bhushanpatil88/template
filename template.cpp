@@ -61,6 +61,13 @@ int modInverse(int b, int m) {return modpow(b,m-2,m);} //Fermat's little theorem
 //MOdular Division
 int modDivide(int a, int b, int m){a = a % m;int inv = modInverse(b, m);if (inv == -1)return -1;else return (inv * a) % m;} 
 
+const int N = 1e5+10;
+const int INF=1e9+10;
+const int LOG = 20;
+unordered_map<int,vector<int>>G;
+int up[N][LOG];
+int depth[N];
+
 vector<int>fact(N, 1), inv(N,1);
 void factorize(){
     
@@ -73,8 +80,59 @@ void factorize(){
     }
 }
 
-const int N = 1e5+10;
-const int INF=1e9+10;
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    if (n <= 3) return true; 
+    if (n % 2 == 0 || n % 3 == 0) return false;
+
+    for (int i = 5; i * i <= n; i = i + 6) {
+        if (n % i == 0 || n % (i + 2) == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+auto dfs = [&](auto&& dfs, int node, int par) -> void{
+    up[node][0] = par;
+    for (int i = 1; i < LOG; ++i) {
+        if (up[node][i - 1] != -1)
+            up[node][i] = up[up[node][i - 1]][i - 1];
+        else
+            up[node][i] = -1;
+    }
+
+    for (int it : G[node]) {
+        if (it != par) {
+            depth[it] = depth[node] + 1;
+            dfs(dfs, it, node);
+        }
+    }
+};
+
+auto lift = [&](int u, int k) -> int {
+    for (int i = 0; i < LOG; ++i) {
+        if (k & (1 << i)) {
+            u = up[u][i];
+            if (u == -1) break;
+        }
+    }
+    return u;
+};
+
+auto lca = [&](int u, int v) -> int {
+    if (depth[u] < depth[v]) swap(u, v);
+    u = lift(u, depth[u] - depth[v]);
+    if (u == v) return u;
+
+    for (int i = LOG - 1; i >= 0; --i) {
+        if (up[u][i] != -1 && up[u][i] != up[v][i]) {
+            u = up[u][i];
+            v = up[v][i];
+        }
+    }
+    return up[u][0];
+};
 
 
 //===================================================Code Here=========================================
